@@ -3,3 +3,4 @@ shap
 pandas 
 scikit-learn
 matplotlib
+black
