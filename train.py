@@ -46,6 +46,14 @@ y_proba = model.predict_proba(X_test)[:, 1]  # prawdopodobieństwo dla klasy 1
 print("=== Ewaluacja ===")
 print("\nClassification Report:\n", classification_report(y_test, y_pred, zero_division=0))
 
+# Generuj raport jako tekst
+report = classification_report(y_test, y_pred, zero_division=0)
+
+# Zapisz do pliku
+with open("results/classification_report.txt", "w") as f:
+    f.write("Classification Report\n")
+    f.write("=====================\n\n")
+    f.write(report)
 
 # === 6. SHAP – wyjaśnienie jednej predykcji ===
 explainer = shap.Explainer(model)
