@@ -16,7 +16,7 @@ def load_model():
 model = load_model()
 
 # === Tytuł ===
-st.title("🎯 Predykcja przeżycia katastrofy Titanica na podstawie danych pasażera")
+st.title("Predykcja przeżycia katastrofy Titanica na podstawie danych pasażera")
 
 # === Formularz danych ===
 st.subheader("Wprowadź dane")
@@ -29,7 +29,7 @@ cabin = st.text_input("Kabina (cabin)")
 embarked = st.selectbox("Port zaokrętowania (embarked)", ["C", "Q", "S"])
 
 # === Przygotuj dane ===
-if st.button("🔍 Przewiduj"):
+if st.button("Przewiduj"):
     input_dict = {
         "pclass": pclass,
         "sex": sex,
@@ -54,11 +54,11 @@ if st.button("🔍 Przewiduj"):
     # Predykcja
     pred = model.predict(input_df)[0]
     proba = model.predict_proba(input_df)[0][1]
-    label = "🟢 Pasażer przeżył" if pred == 1 else "🔴 Pasażer nie przeżył"
+    label = "Pasażer przeżył" if pred == 1 else "Pasażer nie przeżył"
 
     st.success(f"Predykcja: {label} (prawdopodobieństwo: {proba:.2f})")
 
-    st.subheader("🧠 Wyjaśnienie predykcji (SHAP)")
+    st.subheader("Wyjaśnienie predykcji (SHAP)")
 
     explainer = shap.Explainer(model)
     shap_values = explainer(input_df)
