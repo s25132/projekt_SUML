@@ -10,7 +10,7 @@ train:
 
 eval:
 	@echo "## Model Metrics" > report.md
-	@cat ./results/lassification_report.txt >> report.md
+	@cat ./results/classification_report.txt >> report.md
 
 	@cml comment create report.md
 
