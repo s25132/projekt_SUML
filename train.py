@@ -13,22 +13,24 @@ os.makedirs("results", exist_ok=True)
 os.makedirs("app/model", exist_ok=True)
 
 # Dane przykładowe
-df = pd.read_csv('data/Titanic.csv')
+df = pd.read_csv("data/Titanic.csv")
 
-colums_to_remove = ['home.dest', 'boat', 'ticket', 'parch', 'sibsp', 'name', 'body']
+colums_to_remove = ["home.dest", "boat", "ticket", "parch", "sibsp", "name", "body"]
 
 # Usuń je, jeśli istnieją (bezpiecznie)
 df = df.drop(columns=[col for col in colums_to_remove if col in df.columns])
 
-X = df.drop(columns=['survived'])
-y = df['survived']
+X = df.drop(columns=["survived"])
+y = df["survived"]
 
 # Zamiana danych typu object na kolumny liczbowe
 X_encoded = pd.get_dummies(X, drop_first=True)
-X_encoded.columns = X_encoded.columns.str.replace(r'[^a-zA-Z0-9_]', '_', regex=True)
+X_encoded.columns = X_encoded.columns.str.replace(r"[^a-zA-Z0-9_]", "_", regex=True)
 
 # Podział
-X_train, X_test, y_train, y_test = train_test_split(X_encoded, y, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(
+    X_encoded, y, test_size=0.2, random_state=42
+)
 
 # Model LightGBM
 model = lgb.LGBMClassifier()
@@ -44,7 +46,9 @@ y_proba = model.predict_proba(X_test)[:, 1]  # prawdopodobieństwo dla klasy 1
 
 # 5. Ewaluacja
 print("=== Ewaluacja ===")
-print("\nClassification Report:\n", classification_report(y_test, y_pred, zero_division=0))
+print(
+    "\nClassification Report:\n", classification_report(y_test, y_pred, zero_division=0)
+)
 
 # Generuj raport jako tekst
 report = classification_report(y_test, y_pred, zero_division=0)
@@ -70,5 +74,5 @@ print("Prawdopodobieństwo:", model.predict_proba(sample)[0])
 shap.plots.waterfall(shap_values[0], show=False)
 
 # Zapisz wykres do pliku (np. PNG)
-plt.savefig("results/shap_waterfall.png", bbox_inches='tight')
+plt.savefig("results/shap_waterfall.png", bbox_inches="tight")
 plt.close()
